@@ -169,7 +169,7 @@ class Surpriver:
 		volatility_all = np.std(close_price)
 		return volatility_five_bars, volatility_twenty_bars, volatility_all
 
-	def calculate_future_performance(self, future_data):60
+	def calculate_future_performance(self, future_data):
 		CLOSE_PRICE_INDEX = 4
 		price_at_alert = future_data[0][CLOSE_PRICE_INDEX]
 		prices_in_future = [item[CLOSE_PRICE_INDEX] for item in future_data[1:]]
