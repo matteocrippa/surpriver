@@ -245,6 +245,7 @@ class Surpriver:
 				results.append({
 					'latest_date' : latest_date,
 					'Symbol' : symbol,
+					'Price last': list(historical_price['Close'])[-1],
 					'Anomaly Score' : prediction,
 					'Today Volume' : today_volume,
 					'Average Volume 5d' : average_vol_last_five_days,
@@ -271,7 +272,7 @@ class Surpriver:
 		if self.IS_TEST != 0:
 			prefix = "results_future"
 
-		file_name = '%s_%s_%s.json' % (prefix, self.STOCK_DB, str(today))
+		file_name = '%s_%s.json' % (prefix, self.STOCK_DB)
 
 		#Print results to Result File
 		with open(file_name, 'w+') as result_file:

@@ -34,10 +34,10 @@ jobs:
 
       - name: Process spacs
         run: |
-          python detection_engine.py --top_n 25 --min_volume 0 --data_granularity_minutes 60 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'spac'
+          python detection_engine.py --top_n 25 --min_volume 1 --data_granularity_minutes 5 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'spac'
 
-      - name: Upload artifact
+      - name: Upload spacs result
         uses: actions/upload-artifact@v2
         with:
           name: SPAC
-          path: results_spac_*.json
+          path: results_spac.json
