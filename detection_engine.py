@@ -276,7 +276,7 @@ class Surpriver:
 
 		#Print results to Result File
 		with open(file_name, 'w+') as result_file:
-			json.dump(results, result_file)
+			json.dump(results, result_file, sort_keys=True, indent=4)
 
 		print("Results stored successfully in", file_name)
 
