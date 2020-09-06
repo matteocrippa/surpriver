@@ -89,7 +89,6 @@ class DataEngine:
 					        period = period,
 					        interval = str(self.DATA_GRANULARITY_MINUTES) + "m",
 					        auto_adjust = False,
-							pre_post = True,
 					        progress = False)
 			stock_prices = stock_prices.reset_index()
 			stock_prices = stock_prices[['Datetime','Open', 'High', 'Low', 'Close', 'Volume']]
