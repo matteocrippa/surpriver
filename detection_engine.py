@@ -31,6 +31,7 @@ import argparse
 argParser = argparse.ArgumentParser()
 argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
 argParser.add_argument("--min_volume", type=int, default = 5000, help="Minimum volume filter. Stocks with average volume of less than this value will be ignored")
+argParser.add_argument("--max_price", type=int, default = 0, help="Maximum price to consider stocks. 0 accepts all with no upper bound limit.")
 argParser.add_argument("--history_to_use", type=int, default = 7, help="How many bars of 1 hour do you want to use for the anomaly detection model.")
 argParser.add_argument("--is_load_from_dictionary", type=int, default = 0, help="Whether to load data from dictionary or get it from yahoo finance.")
 argParser.add_argument("--data_dictionary_path", type=str, default = "dictionaries/data_dictionary.npy", help="Data dictionary path.")
@@ -46,6 +47,7 @@ argParser.add_argument("--output_format", type=str, default = "CLI", help="What 
 args = argParser.parse_args()
 top_n = args.top_n
 min_volume = args.min_volume
+max_price = args.max_price
 history_to_use = args.history_to_use
 is_load_from_dictionary = args.is_load_from_dictionary
 data_dictionary_path = args.data_dictionary_path
@@ -59,7 +61,7 @@ output_format = args.output_format.upper()
 
 """
 Sample run:
-python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI' --stock_db 'stock'
+python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --max_price 2000 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI' --stock_db 'stock'
 """
 
 class ArgChecker:
@@ -89,6 +91,7 @@ class Surpriver:
 		self.TOP_PREDICTIONS_TO_PRINT = top_n
 		self.HISTORY_TO_USE = history_to_use
 		self.MINIMUM_VOLUME = min_volume
+		self.MAX_PRICE = max_price
 		self.IS_LOAD_FROM_DICTIONARY = is_load_from_dictionary
 		self.DATA_DICTIONARY_PATH = data_dictionary_path
 		self.IS_SAVE_DICTIONARY = is_save_dictionary
