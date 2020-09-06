@@ -1,59 +1,59 @@
-name: Process stocks
+# name: Process stocks
 
-on:
-  push:
-    branches: [master]
+# on:
+#   push:
+#     branches: [master]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-          architecture: 'x64'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Setup Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.x'
+#           architecture: 'x64'
 
-      - uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+#       - uses: actions/cache@v2
+#         with:
+#           path: ~/.cache/pip
+#           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
 
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          pip install -r requirements.txt
+#       - name: Install Dependencies
+#         if: steps.cache.outputs.cache-hit != 'true'
+#         run: |
+#           pip install -r requirements.txt
 
-      # STOCK
-      - name: Process STOCK
-        run: |
-          python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/stock.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'cleaned'
-      - name: Upload STOCK result
-        uses: actions/upload-artifact@v2
-        with:
-          name: STOCK
-          path: results_cleaned.json
+#       # STOCK
+#       - name: Process STOCK
+#         run: |
+#           python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/stock.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'cleaned'
+#       - name: Upload STOCK result
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: STOCK
+#           path: results_cleaned.json
 
-      # SPAC
-      - name: Process SPAC
-        run: |
-          python detection_engine.py --top_n 25 --min_volume 1 --data_granularity_minutes 15 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/spacs.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'spac'
-      - name: Upload SPAC result
-        uses: actions/upload-artifact@v2
-        with:
-          name: SPAC
-          path: results_spac.json
+#       # SPAC
+#       - name: Process SPAC
+#         run: |
+#           python detection_engine.py --top_n 25 --min_volume 1 --data_granularity_minutes 15 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/spacs.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'spac'
+#       - name: Upload SPAC result
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: SPAC
+#           path: results_spac.json
 
-      # ETF
-      # - name: Process ETF
-      #   run: |
-      #     python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/etf.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'etf'
-      # - name: Upload ETF result
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ETF
-      #     path: results_etf.json
+#       # ETF
+#       # - name: Process ETF
+#       #   run: |
+#       #     python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/etf.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'etf'
+#       # - name: Upload ETF result
+#       #   uses: actions/upload-artifact@v2
+#       #   with:
+#       #     name: ETF
+#       #     path: results_etf.json

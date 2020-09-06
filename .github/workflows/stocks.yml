@@ -1,0 +1,39 @@
+name: Process stocks
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install -r requirements.txt
+
+      # STOCK
+      - name: Process STOCK
+        run: |
+          python python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 1 --data_dictionary_path 'dictionaries/stock.npy' --is_save_dictionary 0 --is_test 0 --future_bars 0 --stock-db 'cleaned' --output_format 'JSON'
+      - name: Upload STOCK result
+        uses: actions/upload-artifact@v2
+        with:
+          name: STOCK
+          path: results_cleaned.json

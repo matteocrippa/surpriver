@@ -38,6 +38,17 @@ You can install all packages using the following command. Please note that the s
 pip install -r requirements.txt
 ```
 
+### Local setup
+
+Worth have `pyenv` to setup first.
+
+```bash
+pyenv install 3.8.5
+pyenv local 3.8.5
+pip install pipenv
+pipenv install -r requirements.txt
+```
+
 ### Predictions for Today
 
 If you want to go ahead and directly get the most anomalous stocks for today, you can simple run the following command to get the stocks with the most unusual patterns. We will dive deeper into the command in the following sections.
