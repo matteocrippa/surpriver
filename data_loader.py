@@ -21,7 +21,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class DataEngine:
-	def __init__(self, history_to_use, data_granularity_minutes, is_save_dict, is_load_dict, dict_path, min_volume_filter, is_test, future_bars_for_testing, volatility_filter, stock_db):
+	def __init__(self, history_to_use, data_granularity_minutes, is_save_dict, is_load_dict, dict_path, min_volume_filter, max_price, is_test, future_bars_for_testing, volatility_filter, stock_db):
 		print("Data engine has been initialized...")
 		self.DATA_GRANULARITY_MINUTES = data_granularity_minutes
 		self.IS_SAVE_DICT = is_save_dict
@@ -32,6 +32,7 @@ class DataEngine:
 		self.IS_TEST = is_test
 		self.VOLATILITY_THRESHOLD = volatility_filter
 		self.STOCK_DB = stock_db
+		self.MAX_PRICE = max_price
 
 		# Stocks list
 		self.directory_path = str(os.path.dirname(os.path.abspath(__file__)))
@@ -87,7 +88,7 @@ class DataEngine:
 					        tickers = symbol,
 					        period = period,
 					        interval = str(self.DATA_GRANULARITY_MINUTES) + "m",
-					        auto_adjust = True,
+					        auto_adjust = False,
 							pre_post = True,
 					        progress = False)
 			stock_prices = stock_prices.reset_index()
@@ -163,6 +164,12 @@ class DataEngine:
 
 					if np.isnan(feature_list).any() == True:
 						continue
+
+					# Check for price
+					if self.MAX_PRICE > 0:
+						average_price_last_30 = np.mean(list(stock_price_data["Close"][-30:]))
+						if average_price_last_30 < self.MAX_PRICE:
+							continue
 
 					# Check for volume
 					average_volume_last_30_tickers = np.mean(list(stock_price_data["Volume"])[-30:])

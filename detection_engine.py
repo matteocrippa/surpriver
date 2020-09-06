@@ -106,6 +106,7 @@ class Surpriver:
 		self.dataEngine = DataEngine(self.HISTORY_TO_USE, self.DATA_GRANULARITY_MINUTES, 
 							self.IS_SAVE_DICTIONARY, self.IS_LOAD_FROM_DICTIONARY, self.DATA_DICTIONARY_PATH,
 							self.MINIMUM_VOLUME,
+							self.MAX_PRICE,
 							self.IS_TEST, self.FUTURE_BARS_FOR_TESTING,
 							self.VOLATILITY_FILTER,
 							self.STOCK_DB)
