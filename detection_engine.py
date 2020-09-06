@@ -231,17 +231,13 @@ class Surpriver:
 				'Volatility 20bars' : volatility_vol_last_twenty_days
 			}
 
-			if self.IS_TEST == 0:
-				# Not testing so just add/print the predictions
-				
-				if self.OUTPUT_FORMAT == "CLI":
-					print("Last Bar Time: %s\nSymbol: %s\nLast Price: %.2f\nAnomaly Score: %.5f\nToday Volume: %s\nAverage Volume 5d: %s\nAverage Volume 20d: %s\nVolatility 5bars: %.3f\nVolatility 20bars: %.3f" % 
+			if self.OUTPUT_FORMAT == "CLI":
+				print("Last Bar Time: %s\nSymbol: %s\nLast Price: %.2f\nAnomaly Score: %.5f\nToday Volume: %s\nAverage Volume 5d: %s\nAverage Volume 20d: %s\nVolatility 5bars: %.3f\nVolatility 20bars: %.3f" % 
 																	(latest_date, symbol, last_price, prediction,
 																	today_volume, average_vol_last_five_days, average_vol_last_twenty_days,
 																	volatility_vol_last_five_days, volatility_vol_last_twenty_days))
 
-			else:
-				# Testing so show what happened in the future
+			if self.IS_TEST == 1:
 				future_abs_sum_percentage_change, _ = self.calculate_future_performance(future_price)
 
 				if self.OUTPUT_FORMAT == "CLI":
@@ -253,7 +249,7 @@ class Surpriver:
 				current_item['Future Absolute Sum Price Changes'] =  future_abs_sum_percentage_change
 
 			results.append(current_item)
-			print("\n----------------------")
+			print("----------------------")
 
 		if self.OUTPUT_FORMAT == "JSON":
 			self.store_results(results)
