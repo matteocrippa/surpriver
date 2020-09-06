@@ -215,6 +215,19 @@ class Surpriver:
 			if average_vol_last_five_days == None or volatility_vol_last_five_days == None:
 				continue
 
+			current_item = {
+				'latest_date' : latest_date,
+				'Symbol' : symbol,
+				'Price last': last_price,
+				'Anomaly Score' : prediction,
+				'Today Volume' : today_volume,
+				'Link': 'https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=' + symbol,
+				'Average Volume 5d' : average_vol_last_five_days,
+				'Average Volume 20d' : average_vol_last_twenty_days,
+				'Volatility 5bars' : volatility_vol_last_five_days,
+				'Volatility 20bars' : volatility_vol_last_twenty_days
+			}
+
 			if self.IS_TEST == 0:
 				# Not testing so just add/print the predictions
 				
@@ -223,16 +236,6 @@ class Surpriver:
 																	(latest_date, symbol, prediction,
 																	today_volume, average_vol_last_five_days, average_vol_last_twenty_days,
 																	volatility_vol_last_five_days, volatility_vol_last_twenty_days))
-				results.append({
-					'latest_date' : latest_date,
-					'Symbol' : symbol,
-					'Anomaly Score' : prediction,
-					'Today Volume' : today_volume,
-					'Average Volume 5d' : average_vol_last_five_days,
-					'Average Volume 20d' : average_vol_last_twenty_days,
-					'Volatility 5bars' : volatility_vol_last_five_days,
-					'Volatility 20bars' : volatility_vol_last_twenty_days
-				})
 
 			else:
 				# Testing so show what happened in the future
@@ -244,19 +247,9 @@ class Surpriver:
 																	today_volume, average_vol_last_five_days, average_vol_last_twenty_days,
 																	volatility_vol_last_five_days, volatility_vol_last_twenty_days,
 																	future_abs_sum_percentage_change))
-				results.append({
-					'latest_date' : latest_date,
-					'Symbol' : symbol,
-					'Price last': last_price,
-					'Anomaly Score' : prediction,
-					'Today Volume' : today_volume,
-					'Link': 'https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=' + symbol,
-					'Average Volume 5d' : average_vol_last_five_days,
-					'Average Volume 20d' : average_vol_last_twenty_days,
-					'Volatility 5bars' : volatility_vol_last_five_days,
-					'Volatility 20bars' : volatility_vol_last_twenty_days,
-					'Future Absolute Sum Price Changes' : future_abs_sum_percentage_change
-				})
+				current_item['Future Absolute Sum Price Changes'] =  future_abs_sum_percentage_change
+
+			results.append(current_item)
 
 		if self.OUTPUT_FORMAT == "JSON":
 			self.store_results(results)
