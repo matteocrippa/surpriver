@@ -31,10 +31,11 @@ class DataEngine:
 		self.FUTURE_FOR_TESTING = future_bars_for_testing
 		self.IS_TEST = is_test
 		self.VOLATILITY_THRESHOLD = volatility_filter
+		self.STOCK_DB = stock_db
 
 		# Stocks list
 		self.directory_path = str(os.path.dirname(os.path.abspath(__file__)))
-		self.stocks_file_path = self.directory_path + "/stocks/" + stock_db + ".txt"
+		self.stocks_file_path = self.directory_path + "/stocks/" + self.STOCK_DB + ".txt"
 		self.stocks_list = []
 
 		# Load stock names in a list
