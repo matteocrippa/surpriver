@@ -39,6 +39,7 @@ argParser.add_argument("--data_granularity_minutes", type=int, default = 15, hel
 argParser.add_argument("--is_test", type=int, default = 0, help="Whether to test the tool or just predict for future. When testing, you should set the future_bars to larger than 1.")
 argParser.add_argument("--future_bars", type=int, default = 25, help="How many bars to keep for testing purposes.")
 argParser.add_argument("--volatility_filter", type=float, default = 0.05, help="Stocks with volatility less than this value will be ignored.")
+argParser.add_argument("--stock_db", type=str, default = "stock", help="Provide stock database name, skip .txt extension")
 argParser.add_argument("--output_format", type=str, default = "CLI", help="What format to use for printing/storing results. Can be CLI or JSON.")
 
 
@@ -53,11 +54,12 @@ data_granularity_minutes = args.data_granularity_minutes
 is_test = args.is_test
 future_bars = args.future_bars
 volatility_filter = args.volatility_filter
+stock_db = args.stock_db
 output_format = args.output_format.upper()
 
 """
 Sample run:
-python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI'
+python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI' --stock_db 'stock'
 """
 
 class ArgChecker:
@@ -95,13 +97,15 @@ class Surpriver:
 		self.FUTURE_BARS_FOR_TESTING = future_bars
 		self.VOLATILITY_FILTER = volatility_filter
 		self.OUTPUT_FORMAT = output_format
+		self.STOCK_DB = stock_db
 
 		# Create data engine
 		self.dataEngine = DataEngine(self.HISTORY_TO_USE, self.DATA_GRANULARITY_MINUTES, 
 							self.IS_SAVE_DICTIONARY, self.IS_LOAD_FROM_DICTIONARY, self.DATA_DICTIONARY_PATH,
 							self.MINIMUM_VOLUME,
 							self.IS_TEST, self.FUTURE_BARS_FOR_TESTING,
-							self.VOLATILITY_FILTER)
+							self.VOLATILITY_FILTER
+							self.STOCK_DB)
 		
 
 	def is_nan(self, object):
@@ -267,7 +271,7 @@ class Surpriver:
 		if self.IS_TEST != 0:
 			prefix = "results_future"
 
-		file_name = '%s_%s.json' % (prefix, str(today))
+		file_name = '%s_%s_%s.json' % (prefix, self.STOCK_DB, str(today))
 
 		#Print results to Result File
 		with open(file_name, 'w+') as result_file:
