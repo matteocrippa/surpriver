@@ -28,22 +28,29 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Process stocks
-        run: |
-          python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 5 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON'
+      # - name: Process STOCK
+      #   run: |
+      #     python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 5 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON'
+      # - name: Upload STOCK result
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: STOCK
+      #     path: results_stocks.json
 
-      - name: Upload stock result
-        uses: actions/upload-artifact@v2
-        with:
-          name: STOCK
-          path: results_stock.json
-
-      - name: Process spacs
+      - name: Process SPAC
         run: |
           python detection_engine.py --top_n 25 --min_volume 1 --data_granularity_minutes 5 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'spac'
-
-      - name: Upload spacs result
+      - name: Upload SPAC result
         uses: actions/upload-artifact@v2
         with:
           name: SPAC
           path: results_spac.json
+
+      - name: Process ETF
+        run: |
+          python detection_engine.py --top_n 25 --min_volume 1 --data_granularity_minutes 5 --history_to_use 25 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0 --output_format 'JSON' --stock_db 'etf'
+      - name: Upload ETF result
+        uses: actions/upload-artifact@v2
+        with:
+          name: ETF
+          path: results_etf.json
