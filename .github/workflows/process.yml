@@ -2,14 +2,12 @@ name: Process stocks
 
 on:
   push:
-    branches: [ master ]
-  
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - name: Setup Python
@@ -33,3 +31,8 @@ jobs:
         run: |
           python detection_engine.py --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/data_dict.npy' --is_save_dictionary 1 --is_test 0 --future_bars 0
 
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: data.txt
+      #     path: //
