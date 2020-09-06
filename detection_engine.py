@@ -211,7 +211,7 @@ class Surpriver:
 				print("No future data is present. Please make sure that you ran the prior command with is_test enabled or disable that command now. Exiting now...")
 				exit()
 
-			last_price = list(historical_price["Close"])
+			last_price = list(historical_price["Close"])[-1]
 
 			latest_date, today_volume, average_vol_last_five_days, average_vol_last_twenty_days = self.calculate_volume_changes(historical_price)
 			volatility_vol_last_five_days, volatility_vol_last_twenty_days, _ = self.calculate_recent_volatility(historical_price)
