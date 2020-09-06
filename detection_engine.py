@@ -208,6 +208,8 @@ class Surpriver:
 				print("No future data is present. Please make sure that you ran the prior command with is_test enabled or disable that command now. Exiting now...")
 				exit()
 
+			last_price = list(historical_price["Close"])
+
 			latest_date, today_volume, average_vol_last_five_days, average_vol_last_twenty_days = self.calculate_volume_changes(historical_price)
 			volatility_vol_last_five_days, volatility_vol_last_twenty_days, _ = self.calculate_recent_volatility(historical_price)
 			if average_vol_last_five_days == None or volatility_vol_last_five_days == None:
@@ -245,9 +247,10 @@ class Surpriver:
 				results.append({
 					'latest_date' : latest_date,
 					'Symbol' : symbol,
-					'Price last': list(historical_price['Close'])[-1],
+					'Price last': last_price,
 					'Anomaly Score' : prediction,
 					'Today Volume' : today_volume,
+					'Link': 'https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=' + symbol,
 					'Average Volume 5d' : average_vol_last_five_days,
 					'Average Volume 20d' : average_vol_last_twenty_days,
 					'Volatility 5bars' : volatility_vol_last_five_days,
