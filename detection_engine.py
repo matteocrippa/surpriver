@@ -235,8 +235,8 @@ class Surpriver:
 				# Not testing so just add/print the predictions
 				
 				if self.OUTPUT_FORMAT == "CLI":
-					print("Last Bar Time: %s\nSymbol: %s\nAnomaly Score: %.3f\nToday Volume: %s\nAverage Volume 5d: %s\nAverage Volume 20d: %s\nVolatility 5bars: %.3f\nVolatility 20bars: %.3f\n----------------------" % 
-																	(latest_date, symbol, prediction,
+					print("Last Bar Time: %s\nSymbol: %s\nLast Price: %.2f\nAnomaly Score: %.5f\nToday Volume: %s\nAverage Volume 5d: %s\nAverage Volume 20d: %s\nVolatility 5bars: %.3f\nVolatility 20bars: %.3f" % 
+																	(latest_date, symbol, last_price, prediction,
 																	today_volume, average_vol_last_five_days, average_vol_last_twenty_days,
 																	volatility_vol_last_five_days, volatility_vol_last_twenty_days))
 
@@ -245,14 +245,15 @@ class Surpriver:
 				future_abs_sum_percentage_change, _ = self.calculate_future_performance(future_price)
 
 				if self.OUTPUT_FORMAT == "CLI":
-					print("Last Bar Time: %s\nSymbol: %s\nAnomaly Score: %.3f\nToday Volume: %s\nAverage Volume 5d: %s\nAverage Volume 20d: %s\nVolatility 5bars: %.3f\nVolatility 20bars: %.3f\nFuture Absolute Sum Price Changes: %.2f\n----------------------" % 
-																	(latest_date, symbol, prediction,
+					print("\nFuture Absolute Sum Price Changes: %.2f" % 
+																	(latest_date, symbol, last_price, prediction,
 																	today_volume, average_vol_last_five_days, average_vol_last_twenty_days,
 																	volatility_vol_last_five_days, volatility_vol_last_twenty_days,
 																	future_abs_sum_percentage_change))
 				current_item['Future Absolute Sum Price Changes'] =  future_abs_sum_percentage_change
 
 			results.append(current_item)
+			print("\n----------------------")
 
 		if self.OUTPUT_FORMAT == "JSON":
 			self.store_results(results)
