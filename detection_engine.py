@@ -40,7 +40,7 @@ argParser.add_argument("--data_granularity_minutes", type=int, default = 15, hel
 argParser.add_argument("--is_test", type=int, default = 0, help="Whether to test the tool or just predict for future. When testing, you should set the future_bars to larger than 1.")
 argParser.add_argument("--future_bars", type=int, default = 25, help="How many bars to keep for testing purposes.")
 argParser.add_argument("--volatility_filter", type=float, default = 0.05, help="Stocks with volatility less than this value will be ignored.")
-argParser.add_argument("--stock_db", type=str, default = "stock", help="Provide stock database name, skip .txt extension")
+argParser.add_argument("--stock_db", type=str, default = "stocks", help="Provide stock database name, skip .txt extension")
 argParser.add_argument("--output_format", type=str, default = "CLI", help="What format to use for printing/storing results. Can be CLI or JSON.")
 
 
@@ -169,7 +169,7 @@ class Surpriver:
 		volatility_all = np.std(close_price)
 		return volatility_five_bars, volatility_twenty_bars, volatility_all
 
-	def calculate_future_performance(self, future_data):
+	def calculate_future_performance(self, future_data):60
 		CLOSE_PRICE_INDEX = 4
 		price_at_alert = future_data[0][CLOSE_PRICE_INDEX]
 		prices_in_future = [item[CLOSE_PRICE_INDEX] for item in future_data[1:]]
